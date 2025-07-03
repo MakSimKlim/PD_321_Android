@@ -23,7 +23,7 @@
         android:layout_height="wrap_content"
         android:layout_centerInParent="true"
         android:textSize="30sp"
-        android:hint="Enter the total bill" />
+        android:hint="Enter the total bill here" />
 
     <TextView
         android:id="@+id/titleTextView1"
