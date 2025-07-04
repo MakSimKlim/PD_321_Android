@@ -8,8 +8,108 @@
     android:layout_height="match_parent"
     tools:context=".MainActivity"
     android:layout_margin="30dp"
-    android:paddingTop="20dp">  <!-- Отступ для всего содержимого -->
+    android:paddingTop="20dp">
 
+    <TextView
+        android:id="@+id/titleTextView1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:gravity="center"
+        android:textSize="20sp"
+        android:text="Welcome to the Concrete Strength Tester" />
 
+    <TextView
+        android:id="@+id/instrumentTitleTextView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="30dp"
+        android:layout_centerInParent="true"
+        android:text="Enter the instrument readings in MPa:" />
+
+    <EditText
+        android:id="@+id/instrumentEditText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:gravity="center"
+        android:layout_marginTop="10dp"
+        android:layout_centerInParent="true"
+        android:digits="0123456789."
+        android:hint="0.00" />
+
+    <TextView
+        android:id="@+id/projectValueTitleTextView1"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="30dp"
+        android:layout_centerInParent="true"
+        android:text="Select parameter of concrete:" />
+
+    <RadioGroup
+        android:id="@+id/radioGroup"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <RadioButton
+            android:id="@+id/radioGrade"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Grade (M)" />
+
+        <RadioButton
+            android:id="@+id/radioClass"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:checked="true"
+            android:text="Class (B)" />
+
+    </RadioGroup>
+
+    <TextView
+        android:id="@+id/projectValueTitleTextView2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="30dp"
+        android:layout_centerInParent="true"
+        android:text="Enter concrete project number of grade (M) or class (B):" />
+
+    <EditText
+        android:id="@+id/projectValueEditText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:layout_gravity="center_horizontal"
+        android:digits="0123456789."
+        android:gravity="center"
+        android:hint="0" />
+
+    <Button
+        android:id="@+id/calculateButton"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Calculate"/>
+
+    <TextView
+        android:id="@+id/resultTitleTextView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:gravity="center"
+        android:layout_marginTop="30dp"
+        android:textSize="20sp"
+        android:layout_centerInParent="true"
+        android:text="Actual concrete strength in %:" />
+
+    <TextView
+        android:id="@+id/resultTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:textColor="#FF0000"
+        android:textSize="50sp"
+        android:layout_marginTop="10dp"
+/>
 
 </LinearLayout>
