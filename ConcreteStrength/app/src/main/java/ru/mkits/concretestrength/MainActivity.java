@@ -17,6 +17,7 @@ public class MainActivity extends AppCompatActivity {
     EditText projectValueEditText;
     Button calculateButton;
     TextView resultTextView;
+    TextView resultGradeTextView;
     boolean isGradeSelected = false;
 
     @Override
@@ -31,6 +32,7 @@ public class MainActivity extends AppCompatActivity {
         calculateButton = findViewById(R.id.calculateButton);
         resultTextView = findViewById(R.id.resultTextView);
         radioGroup.check(R.id.radioClass);
+        resultGradeTextView = findViewById(R.id.resultGradeTextView);
 
         // Установка обработчика для Radiogroup
         radioGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
@@ -52,7 +54,7 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View v) {
                 // Получаем значение показаний прибора
                 float instrumentValue = Float.parseFloat(instrumentEditText.getText().toString());
-                // Получаем значение класса или марки
+                // Получаем значение проектного класса или марки
                 float projectValueConcrete = Float.parseFloat(projectValueEditText.getText().toString());
                 // Формула расчета прочности бетона
                 float resultValue =  (instrumentValue * 0.8f * 100)/projectValueConcrete;
@@ -62,11 +64,13 @@ public class MainActivity extends AppCompatActivity {
                 {
                     // Расчет для марки бетона (Grade)
                     resultTextView.setText(String.format("%.1f%%", resultValue / 0.075f));
+                    resultGradeTextView.setText(String.format("grade M%.1f", instrumentValue * 0.8f/0.075));
                 }
                 else
                 {
                     // Расчет для класса бетона (Class)
                     resultTextView.setText(String.format("%.1f%%", resultValue));
+                    resultGradeTextView.setText(String.format("class B%.1f", instrumentValue * 0.8f));
                 }
             }
         });

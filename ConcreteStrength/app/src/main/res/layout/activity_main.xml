@@ -4,11 +4,11 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/main"
     android:layout_width="match_parent"
-    android:orientation="vertical"
     android:layout_height="match_parent"
-    tools:context=".MainActivity"
     android:layout_margin="30dp"
-    android:paddingTop="20dp">
+    android:orientation="vertical"
+    android:paddingTop="20dp"
+    tools:context=".MainActivity">
 
     <TextView
         android:id="@+id/titleTextView1"
@@ -16,34 +16,34 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
         android:gravity="center"
-        android:textSize="20sp"
-        android:text="Welcome to the Concrete Strength Tester" />
+        android:text="Welcome to the Concrete Strength Tester"
+        android:textSize="20sp" />
 
     <TextView
         android:id="@+id/instrumentTitleTextView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="30dp"
         android:layout_centerInParent="true"
-        android:text="Enter the instrument readings in MPa:" />
+        android:layout_marginTop="30dp"
+        android:text="Enter the instrument readings in MPa (R fact):" />
 
     <EditText
         android:id="@+id/instrumentEditText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_gravity="center_horizontal"
-        android:gravity="center"
-        android:layout_marginTop="10dp"
         android:layout_centerInParent="true"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="10dp"
         android:digits="0123456789."
+        android:gravity="center"
         android:hint="0.00" />
 
     <TextView
         android:id="@+id/projectValueTitleTextView1"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="30dp"
         android:layout_centerInParent="true"
+        android:layout_marginTop="30dp"
         android:text="Select parameter of concrete:" />
 
     <RadioGroup
@@ -71,9 +71,9 @@
         android:id="@+id/projectValueTitleTextView2"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="30dp"
         android:layout_centerInParent="true"
-        android:text="Enter concrete project number of grade (M) or class (B):" />
+        android:layout_marginTop="30dp"
+        android:text="Enter concrete PROJECT number of\ngrade (M) or class (B):" />
 
     <EditText
         android:id="@+id/projectValueEditText"
@@ -89,27 +89,43 @@
         android:id="@+id/calculateButton"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Calculate"/>
+        android:text="Calculate" />
 
     <TextView
         android:id="@+id/resultTitleTextView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_gravity="center_horizontal"
-        android:gravity="center"
-        android:layout_marginTop="30dp"
-        android:textSize="20sp"
         android:layout_centerInParent="true"
-        android:text="Actual concrete strength in %:" />
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="30dp"
+        android:gravity="center"
+        android:text="Actual concrete strength in %:"
+        android:textSize="20sp" />
 
     <TextView
         android:id="@+id/resultTextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
-        android:textColor="#FF0000"
-        android:textSize="50sp"
         android:layout_marginTop="10dp"
-/>
+        android:textColor="#FF0000"
+        android:textSize="50sp" />
+
+    <TextView
+        android:id="@+id/resultGradeTitleTextView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="10dp"
+        android:gravity="center"
+        android:text="Actual concrete:"
+        android:textSize="20sp" />
+
+    <TextView
+        android:id="@+id/resultGradeTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal" />
 
 </LinearLayout>
