@@ -7,36 +7,74 @@
     android:orientation="vertical"
     android:layout_height="match_parent"
     tools:context=".MainActivity"
-    android:paddingTop="50dp">  <!-- Отступ для всего содержимого -->
+    android:layout_margin="30dp"
+    android:paddingTop="20dp">  <!-- Отступ для всего содержимого -->
+
 
     <TextView
         android:id="@+id/titleTextView1"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
+        android:gravity="center"
         android:textSize="20sp"
-        android:text="Welcome to the Tax Calculator" />
+        android:text="Welcome to the Tax Calculator\n income from bank deposits in Russia" />
 
-    <Button
-        android:id="@+id/btnLanguage"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center_horizontal"
-        android:text="switch language: (RU-EN)"/>
-
-    <EditText
-        android:id="@+id/keyRateEditText"
+   <TextView
+        android:id="@+id/keyRateTitleTextView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="30dp"
         android:layout_centerInParent="true"
-        android:hint="Enter the maximum interest rate of the Central Bank in percent per year here" />
+        android:text="Select the maximum Central Bank interest rate in percent using the slider:" />
+
+ <!--
+    <TextView
+        android:id="@+id/keyRateTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:gravity="center"
+        android:layout_marginTop="10dp"
+        android:textSize="20sp"
+        android:layout_centerInParent="true"
+        android:text="0.00%" />
+        -->
+
+    <SeekBar
+        android:id="@+id/seekBar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:max="10000"
+        android:min="0"
+        android:progress="0" />
+
+    <EditText
+        android:id="@+id/keyRateEditText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:gravity="center"
+        android:layout_marginTop="10dp"
+        android:layout_centerInParent="true"
+        android:digits="0123456789."
+        android:hint="0.00" />
+
+    <TextView
+        android:id="@+id/incomeTitleTextView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="30dp"
+        android:layout_centerInParent="true"
+        android:text="Amount of income from deposits for the year:" />
 
     <EditText
         android:id="@+id/incomeEditText"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_centerInParent="true"
+        android:digits="0123456789."
         android:hint="Enter amount of income from deposits for the year here" />
 
     <!--
@@ -61,7 +99,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="30dp"
         android:textSize="20dp"
-        android:text="Сalculate (personal income tax 13%)" />
+        android:text="Сalculate\n (personal income tax 13%)" />
 
 
     <TextView
@@ -82,6 +120,14 @@
         android:textSize="50sp"
         android:layout_marginTop="10dp"/>
 
-
+    <TextView
+        android:id="@+id/averageTaxIncomeTextView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:gravity="center"
+        android:layout_marginTop="10dp"
+        android:layout_centerInParent="true"
+        android:hint="average tax from the amount of income in %: " />
 
 </LinearLayout>
