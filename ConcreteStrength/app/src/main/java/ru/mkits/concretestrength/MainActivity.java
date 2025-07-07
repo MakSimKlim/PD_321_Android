@@ -1,10 +1,14 @@
 package ru.mkits.concretestrength;
 
+import android.content.res.Configuration;
+import android.content.res.Resources;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.RadioGroup;
+import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -13,8 +17,11 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.view.inputmethod.InputMethodManager;
 
+import java.util.Locale;
+
 public class MainActivity extends AppCompatActivity {
 
+    Switch switchLanguage;
     EditText instrumentEditText;
     RadioGroup radioGroup;
     EditText projectValueEditText;
@@ -31,6 +38,7 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         // Инициализация элементов интерфейса
+        switchLanguage = findViewById(R.id.switchLanguage);
         instrumentEditText = findViewById(R.id.instrumentEditText);
         radioGroup = findViewById(R.id.radioGroup);
         projectValueEditText = findViewById(R.id.projectValueEditText);
@@ -40,6 +48,18 @@ public class MainActivity extends AppCompatActivity {
         resultGradeTextView = findViewById(R.id.resultGradeTextView);
         btnClear = findViewById(R.id.btnClear);
         btnExit = findViewById(R.id.btnExit);
+
+
+        // Обработчик Switch
+        switchLanguage.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+            //https://www.youtube.com/watch?v=KQ-jMspCc3A
+            //https://www.youtube.com/watch?v=aHTvZ-yvAvI
+            }
+        });
+
+
 
         // Установка обработчика для Radiogroup
         radioGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
@@ -62,7 +82,8 @@ public class MainActivity extends AppCompatActivity {
                 // Проверка заполнения полей
                 if (instrumentEditText.getText().toString().isEmpty() ||
                         projectValueEditText.getText().toString().isEmpty()) {
-                    Toast.makeText(MainActivity.this,"Please fill in all fields before calculating", Toast.LENGTH_SHORT).show();
+                    //Toast.makeText(MainActivity.this, "Please fill in all fields before calculating", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(MainActivity.this, R.string.toastCalculateButton, Toast.LENGTH_SHORT).show();// toastCalculateButton - добавлено в strings.xml для локализации
                 }
 
                 else {
@@ -85,6 +106,7 @@ public class MainActivity extends AppCompatActivity {
                     }
 
                 }
+                // метод для скрытия клавиатуры
                 ((InputMethodManager)getSystemService(INPUT_METHOD_SERVICE))
                         .hideSoftInputFromWindow(instrumentEditText.getWindowToken(), 0);
             }
@@ -96,7 +118,8 @@ public class MainActivity extends AppCompatActivity {
                 projectValueEditText.setText("");
                 resultTextView.setText("");
                 resultGradeTextView.setText("");
-                Toast.makeText(MainActivity.this, "All values clear", Toast.LENGTH_SHORT).show();
+                //Toast.makeText(MainActivity.this, "All values clear", Toast.LENGTH_SHORT).show();
+                Toast.makeText(MainActivity.this, R.string.toastBtnClear, Toast.LENGTH_SHORT).show();// toastBtnClear - добавлено в strings.xml для локализации
             }
         });
 
@@ -107,6 +130,7 @@ public class MainActivity extends AppCompatActivity {
                 finish();
             }
         });
+
 
     }
 }
