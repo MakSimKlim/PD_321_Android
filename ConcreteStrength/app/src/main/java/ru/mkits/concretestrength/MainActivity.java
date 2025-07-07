@@ -6,6 +6,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.RadioGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -18,6 +19,7 @@ public class MainActivity extends AppCompatActivity {
     Button calculateButton;
     TextView resultTextView;
     TextView resultGradeTextView;
+    Button btnClear;
     Button btnExit;
     boolean isGradeSelected = false;
 
@@ -34,6 +36,7 @@ public class MainActivity extends AppCompatActivity {
         resultTextView = findViewById(R.id.resultTextView);
         radioGroup.check(R.id.radioClass);
         resultGradeTextView = findViewById(R.id.resultGradeTextView);
+        btnClear = findViewById(R.id.btnClear);
         btnExit = findViewById(R.id.btnExit);
 
         // Установка обработчика для Radiogroup
@@ -54,28 +57,49 @@ public class MainActivity extends AppCompatActivity {
         calculateButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // Получаем значение показаний прибора
-                float instrumentValue = Float.parseFloat(instrumentEditText.getText().toString());
-                // Получаем значение проектного класса или марки
-                float projectValueConcrete = Float.parseFloat(projectValueEditText.getText().toString());
-                // Формула расчета прочности бетона
-                float resultValue =  (instrumentValue * 0.8f * 100)/projectValueConcrete;
-
-                // Расчет прочности в зависимости от выбранного режима
-                if (isGradeSelected)
-                {
-                    // Расчет для марки бетона (Grade)
-                    resultTextView.setText(String.format("%.1f%%", resultValue / 0.075f));
-                    resultGradeTextView.setText(String.format("grade M%.1f", instrumentValue * 0.8f/0.075));
+                // Проверка заполнения полей
+                if (instrumentEditText.getText().toString().isEmpty() ||
+                        projectValueEditText.getText().toString().isEmpty()) {
+                    Toast.makeText(MainActivity.this,"Please fill in all fields before calculating", Toast.LENGTH_SHORT).show();
                 }
-                else
-                {
-                    // Расчет для класса бетона (Class)
-                    resultTextView.setText(String.format("%.1f%%", resultValue));
-                    resultGradeTextView.setText(String.format("class B%.1f", instrumentValue * 0.8f));
+
+                else {
+                    // Получаем значение показаний прибора
+                    float instrumentValue = Float.parseFloat(instrumentEditText.getText().toString());
+                    // Получаем значение проектного класса или марки
+                    float projectValueConcrete = Float.parseFloat(projectValueEditText.getText().toString());
+                    // Формула расчета прочности бетона
+                    float resultValue = (instrumentValue * 0.8f * 100) / projectValueConcrete;
+
+                    // Расчет прочности в зависимости от выбранного режима
+                    if (isGradeSelected) {
+                        // Расчет для марки бетона (Grade)
+                        resultTextView.setText(String.format("%.1f%%", resultValue / 0.075f));
+                        resultGradeTextView.setText(String.format("grade M%.1f", instrumentValue * 0.8f / 0.075));
+                        projectValueEditText.clearFocus();  // Снимаем фокусчтобы клавиатуры скрывалась
+                        instrumentEditText.clearFocus();  // Снимаем фокусчтобы клавиатуры скрывалась
+                    } else {
+                        // Расчет для класса бетона (Class)
+                        resultTextView.setText(String.format("%.1f%%", resultValue));
+                        resultGradeTextView.setText(String.format("class B%.1f", instrumentValue * 0.8f));
+                        projectValueEditText.clearFocus();  // Снимаем фокусчтобы клавиатуры скрывалась
+                        instrumentEditText.clearFocus();  // Снимаем фокусчтобы клавиатуры скрывалась
+                    }
                 }
             }
         });
+        btnClear.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                instrumentEditText.setText("");
+                projectValueEditText.setText("");
+                resultTextView.setText("");
+                resultGradeTextView.setText("");
+                Toast.makeText(MainActivity.this, "All values clear", Toast.LENGTH_SHORT).show();
+            }
+        });
+
+
         btnExit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
