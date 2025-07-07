@@ -11,6 +11,8 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.view.inputmethod.InputMethodManager;
+
 public class MainActivity extends AppCompatActivity {
 
     EditText instrumentEditText;
@@ -76,16 +78,15 @@ public class MainActivity extends AppCompatActivity {
                         // Расчет для марки бетона (Grade)
                         resultTextView.setText(String.format("%.1f%%", resultValue / 0.075f));
                         resultGradeTextView.setText(String.format("grade M%.1f", instrumentValue * 0.8f / 0.075));
-                        projectValueEditText.clearFocus();  // Снимаем фокусчтобы клавиатуры скрывалась
-                        instrumentEditText.clearFocus();  // Снимаем фокусчтобы клавиатуры скрывалась
                     } else {
                         // Расчет для класса бетона (Class)
                         resultTextView.setText(String.format("%.1f%%", resultValue));
                         resultGradeTextView.setText(String.format("class B%.1f", instrumentValue * 0.8f));
-                        projectValueEditText.clearFocus();  // Снимаем фокусчтобы клавиатуры скрывалась
-                        instrumentEditText.clearFocus();  // Снимаем фокусчтобы клавиатуры скрывалась
                     }
+
                 }
+                ((InputMethodManager)getSystemService(INPUT_METHOD_SERVICE))
+                        .hideSoftInputFromWindow(instrumentEditText.getWindowToken(), 0);
             }
         });
         btnClear.setOnClickListener(new View.OnClickListener() {
