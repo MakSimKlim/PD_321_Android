@@ -24,7 +24,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_centerInParent="true"
-        android:layout_marginTop="30dp"
+        android:layout_marginTop="10dp"
         android:text="Enter the instrument readings in MPa (R fact):" />
 
     <EditText
@@ -33,6 +33,7 @@
         android:layout_height="wrap_content"
         android:layout_centerInParent="true"
         android:layout_gravity="center_horizontal"
+        android:textSize="20sp"
         android:layout_marginTop="10dp"
         android:digits="0123456789."
         android:gravity="center"
@@ -43,7 +44,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_centerInParent="true"
-        android:layout_marginTop="30dp"
+        android:layout_marginTop="10dp"
         android:text="Select parameter of concrete:" />
 
     <RadioGroup
@@ -72,7 +73,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_centerInParent="true"
-        android:layout_marginTop="30dp"
+        android:layout_marginTop="10dp"
         android:text="Enter concrete PROJECT number of\ngrade (M) or class (B):" />
 
     <EditText
@@ -81,6 +82,7 @@
         android:layout_height="wrap_content"
         android:layout_centerInParent="true"
         android:layout_gravity="center_horizontal"
+        android:textSize="20sp"
         android:digits="0123456789."
         android:gravity="center"
         android:hint="0" />
@@ -97,7 +99,7 @@
         android:layout_height="wrap_content"
         android:layout_centerInParent="true"
         android:layout_gravity="center_horizontal"
-        android:layout_marginTop="30dp"
+        android:layout_marginTop="10dp"
         android:gravity="center"
         android:text="Actual concrete strength in %:"
         android:textSize="20sp" />
@@ -109,7 +111,7 @@
         android:layout_gravity="center_horizontal"
         android:layout_marginTop="10dp"
         android:textColor="#FF0000"
-        android:textSize="50sp" />
+        android:textSize="30sp" />
 
     <TextView
         android:id="@+id/resultGradeTitleTextView"
@@ -126,6 +128,14 @@
         android:id="@+id/resultGradeTextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_gravity="center_horizontal" />
+        android:layout_gravity="center_horizontal"
+        android:textSize="20sp"/>
+    <Button
+        android:id="@+id/btnExit"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:layout_gravity="end"
+        android:text="Exit"/>
 
 </LinearLayout>

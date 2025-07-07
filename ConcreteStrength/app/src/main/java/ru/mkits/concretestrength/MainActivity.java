@@ -18,6 +18,7 @@ public class MainActivity extends AppCompatActivity {
     Button calculateButton;
     TextView resultTextView;
     TextView resultGradeTextView;
+    Button btnExit;
     boolean isGradeSelected = false;
 
     @Override
@@ -33,6 +34,7 @@ public class MainActivity extends AppCompatActivity {
         resultTextView = findViewById(R.id.resultTextView);
         radioGroup.check(R.id.radioClass);
         resultGradeTextView = findViewById(R.id.resultGradeTextView);
+        btnExit = findViewById(R.id.btnExit);
 
         // Установка обработчика для Radiogroup
         radioGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
@@ -72,6 +74,12 @@ public class MainActivity extends AppCompatActivity {
                     resultTextView.setText(String.format("%.1f%%", resultValue));
                     resultGradeTextView.setText(String.format("class B%.1f", instrumentValue * 0.8f));
                 }
+            }
+        });
+        btnExit.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
             }
         });
 
