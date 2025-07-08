@@ -7,8 +7,14 @@
     android:layout_height="match_parent"
     android:layout_margin="30dp"
     android:orientation="vertical"
-    android:paddingTop="20dp"
+    android:paddingTop="10dp"
     tools:context=".MainActivity">
+
+
+    <Switch
+        android:id="@+id/switchLanguage"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
 
     <TextView
         android:id="@+id/titleTextView1"
@@ -16,7 +22,8 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
         android:gravity="center"
-        android:text="Welcome to the Concrete Strength Tester"
+        android:layout_marginTop="10dp"
+        android:text="@string/welcome"
         android:textSize="20sp" />
 
     <TextView
@@ -25,7 +32,7 @@
         android:layout_height="wrap_content"
         android:layout_centerInParent="true"
         android:layout_marginTop="10dp"
-        android:text="Enter the instrument readings in MPa (R fact):" />
+        android:text="@string/instrumentTitle" />
 
     <EditText
         android:id="@+id/instrumentEditText"
@@ -45,7 +52,7 @@
         android:layout_height="wrap_content"
         android:layout_centerInParent="true"
         android:layout_marginTop="10dp"
-        android:text="Select parameter of concrete:" />
+        android:text="@string/projectValueTitle" />
 
     <RadioGroup
         android:id="@+id/radioGroup"
@@ -57,7 +64,7 @@
             android:id="@+id/radioGrade"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Grade (M)" />
+            android:text="@string/radioGrade" />
 
         <RadioButton
             android:id="@+id/radioClass"
@@ -74,7 +81,7 @@
         android:layout_height="wrap_content"
         android:layout_centerInParent="true"
         android:layout_marginTop="10dp"
-        android:text="Enter concrete PROJECT number of\ngrade (M) or class (B):" />
+        android:text="@string/projectValueTitle2" />
 
     <EditText
         android:id="@+id/projectValueEditText"
@@ -91,7 +98,7 @@
         android:id="@+id/calculateButton"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Calculate" />
+        android:text="@string/calculateButton" />
 
     <TextView
         android:id="@+id/resultTitleTextView"
@@ -101,7 +108,7 @@
         android:layout_gravity="center_horizontal"
         android:layout_marginTop="10dp"
         android:gravity="center"
-        android:text="Actual concrete strength in %:"
+        android:text="@string/resultTitle"
         android:textSize="20sp" />
 
     <TextView
@@ -111,7 +118,7 @@
         android:layout_gravity="center_horizontal"
         android:layout_marginTop="10dp"
         android:textColor="#FF0000"
-        android:textSize="30sp" />
+        android:textSize="25sp" />
 
     <TextView
         android:id="@+id/resultGradeTitleTextView"
@@ -121,7 +128,7 @@
         android:layout_gravity="center_horizontal"
         android:layout_marginTop="10dp"
         android:gravity="center"
-        android:text="Actual concrete:"
+        android:text="@string/resultGrade"
         android:textSize="20sp" />
 
     <TextView
@@ -135,13 +142,13 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        android:layout_marginTop="20dp">
+        android:layout_marginTop="10dp">
 
         <Button
             android:id="@+id/btnClear"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Clear" />
+            android:text="@string/btnClear" />
 
         <Space
             android:layout_width="0dp"
@@ -154,7 +161,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="20dp"
             android:layout_gravity="end"
-            android:text="Exit"/>
+            android:text="@string/btnExit"/>
 
     </LinearLayout>
 

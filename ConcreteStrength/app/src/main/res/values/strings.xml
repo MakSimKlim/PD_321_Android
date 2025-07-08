@@ -1,3 +1,17 @@
 <resources>
     <string name="app_name">Concrete Strength Calculator V1.3</string>
+    <string name="welcome">Welcome to the Concrete Strength Tester</string>
+    <string name="instrumentTitle">Enter the instrument readings in MPa (R fact):</string>
+    <string name="projectValueTitle">Select parameter of concrete:</string>
+    <string name="radioGrade">Grade (M)</string>
+    <string name="projectValueTitle2">Enter concrete PROJECT number of\ngrade (M) or class (B):</string>
+    <string name="calculateButton">Calculate</string>
+    <string name="resultTitle">Actual concrete strength in %:</string>
+    <string name="resultGrade">Actual concrete:</string>
+    <string name="btnClear">Clear</string>
+    <string name="btnExit">Exit</string>
+    <string name="toastCalculateButton">Please fill in all fields before calculating</string>
+    <string name="toastBtnClear">All values clear</string>
 </resources>
+
+<!--Alt+Enter-->
