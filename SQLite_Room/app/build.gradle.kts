@@ -33,6 +33,10 @@ android {
 
 dependencies {
 
+    implementation ("androidx.room:room-runtime:2.6.1")
+    implementation(libs.room.common.jvm)
+    annotationProcessor ("androidx.room:room-compiler:2.6.1")
+    implementation("com.squareup.retrofit2:retrofit:2.9.0")
     implementation(libs.appcompat)
     implementation(libs.material)
     implementation(libs.activity)
