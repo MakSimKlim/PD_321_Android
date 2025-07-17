@@ -5,6 +5,7 @@ import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 
+import androidx.activity.OnBackPressedCallback;
 import androidx.appcompat.app.AppCompatActivity;
 
 
@@ -24,6 +25,18 @@ public class MainActivity extends AppCompatActivity {
 
 
         webView.loadUrl("https://app.justmyownsite.ru");
+
+        getOnBackPressedDispatcher().addCallback(this, new OnBackPressedCallback(true) {
+            @Override
+            public void handleOnBackPressed() {
+                if(webView.canGoBack()){
+                    webView.goBack();
+                }
+                else {
+                    finish();
+                }
+            }
+        });
 
 
     }
