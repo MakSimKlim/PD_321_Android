@@ -11,6 +11,7 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.activity.OnBackPressedCallback;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
@@ -48,6 +49,14 @@ public class MainActivity extends AppCompatActivity {
                 getLocation();
             }
 
+        });
+
+        // Обработка нажатия "Назад"
+        getOnBackPressedDispatcher().addCallback(this, new OnBackPressedCallback(true) {
+            @Override
+            public void handleOnBackPressed() {
+                finish(); // Закрываем MainActivity
+            }
         });
 
     }
