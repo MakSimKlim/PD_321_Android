@@ -77,7 +77,7 @@ public class MainActivity extends AppCompatActivity {
 
                     Log.d("GPS",lat+" "+lon);
                     mapView.getMap().move(new CameraPosition(new Point(lat,lon),15.0f,0.0f,0.0f),new Animation(Animation.Type.SMOOTH,1),null);
-                    mapView.getMap().getMapObjects().addPlacemark(new Point(lat, lon));
+                    mapView.getMap().getMapObjects().addPlacemark(new Point(lat, lon));//добавляем полученную точку на карту в виде маркера
 
                 }
             },null);
