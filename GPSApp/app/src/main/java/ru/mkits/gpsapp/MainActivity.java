@@ -47,7 +47,9 @@ public class MainActivity extends AppCompatActivity {
             }else {
                 getLocation();
             }
+
         });
+
     }
 
     private void getLocation() {
@@ -99,4 +101,5 @@ public class MainActivity extends AppCompatActivity {
         MapKitFactory.getInstance().onStop();
         super.onStop();
     }
+
 }
