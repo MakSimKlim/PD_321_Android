@@ -60,8 +60,10 @@ public class MainActivity extends AppCompatActivity {
             public void onResponse(Call<WeatherResponse> call, Response<WeatherResponse> response) {
                 if (response.isSuccessful() && response.body()!=null) {
                     WeatherResponse weather = response.body();
-                    String result = "Город "+weather.name +"\n"+"Температура "+weather.main.temp +"°C\n"+
-                            "Описание "+weather.weather[0].description;
+                    String result = "Город: "+weather.name +"\n"+"Температура: "+weather.main.temp +"°C\n"+
+                                    "Описание: "+weather.weather[0].description + "\n" +
+                                    "Ветер: " + weather.wind.speed+"м/с"+ "\n" +
+                                    "Влажность: "+weather.main.humidity+"%";
 
                     textResult.setText(result);
                 }else {

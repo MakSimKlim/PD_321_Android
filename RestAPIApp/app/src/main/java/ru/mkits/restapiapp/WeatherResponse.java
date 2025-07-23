@@ -13,12 +13,20 @@ public class WeatherResponse {
     @SerializedName("name")
     @Expose
     public String name;
+    @SerializedName("wind")
+    @Expose
+    public Wind wind;
 
 
     public class Main{
         @SerializedName("temp")
         @Expose
         public float temp;
+
+        @SerializedName("humidity")
+        @Expose
+        public float humidity;
+
     }
 
     public class Weather{
@@ -27,4 +35,13 @@ public class WeatherResponse {
         public String description;
 
     }
+
+    public class Wind{
+        @SerializedName("speed")
+        @Expose
+        public Integer speed;
+
+    }
+
+
 }

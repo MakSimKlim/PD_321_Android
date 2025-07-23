@@ -34,8 +34,8 @@ android {
 dependencies {
     implementation ("androidx.room:room-runtime:2.6.1")
     annotationProcessor ("androidx.room:room-compiler:2.6.1")
-    implementation("com.squareup.retrofit2:retrofit:2.9.0")
-    implementation("com.squareup.retrofit2:converter-gson:2.9.0")
+    implementation("com.squareup.retrofit2:retrofit:3.0.0")
+    implementation("com.squareup.retrofit2:converter-gson:3.0.0")
     implementation ("com.squareup.okhttp3:logging-interceptor:5.0.0-alpha.11")
     implementation ("com.yandex.android:maps.mobile:4.5.0-full")
     implementation(libs.appcompat)
