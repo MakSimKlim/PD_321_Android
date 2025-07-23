@@ -5,17 +5,99 @@
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:layout_margin="20dp"
     android:orientation="vertical"
-    android:gravity="center"
+
     tools:context=".MainActivity">
 
     <TextView
-        android:layout_width="wrap_content"
+        android:id="@+id/locationTitleTextView"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Hello World!"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        android:layout_margin="5dp"
+        android:gravity="center"
+        android:text="Current location coordinates:"
+        android:textSize="20sp" />
+
+    <TextView
+        android:id="@+id/locationInfoTextView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Waiting for coordinates..."
+        android:padding="5dp"
+        android:textSize="16sp" />
+
+    <com.yandex.mapkit.mapview.MapView
+        android:id="@+id/mapView"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:orientation="horizontal"
+        android:layout_marginTop="5dp">
+
+        <Button
+            android:id="@+id/btnClear"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="Clear"/>
+
+        <Button
+            android:id="@+id/btnForeground"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="Foreground"/>
+
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:orientation="horizontal"
+        android:layout_margin="0dp">
+
+        <Button
+            android:id="@+id/btnService"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="Weather"/>
+
+        <Button
+            android:id="@+id/btnAiHelp"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="AI Help"/>
+
+        <Button
+            android:id="@+id/btnLog"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="LOG"/>
+
+    </LinearLayout>
+
+    <Button
+        android:id="@+id/btnDistance"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Calculate Distance"/>
+
+    <TextView
+        android:id="@+id/resultDistanceTextView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Distance calculation result..."
+        android:padding="10dp"
+        android:textSize="16sp" />
+
 
 </LinearLayout>
