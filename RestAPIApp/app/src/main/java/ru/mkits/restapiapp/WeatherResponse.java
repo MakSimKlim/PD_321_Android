@@ -39,7 +39,7 @@ public class WeatherResponse {
     public class Wind{
         @SerializedName("speed")
         @Expose
-        public Integer speed;
+        public float speed;
 
     }
 
