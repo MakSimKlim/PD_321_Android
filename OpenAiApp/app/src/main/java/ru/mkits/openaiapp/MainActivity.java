@@ -43,7 +43,8 @@ public class MainActivity extends AppCompatActivity {
             "Учёный",
             "Поэт",
             "Академик",
-            "Пират"
+            "Пират",
+            "В обычной манере (без роли)"
     };
     DeepSeekApi apiService;
 
