@@ -16,6 +16,9 @@ public class WeatherResponse {
     @SerializedName("wind")
     @Expose
     public Wind wind;
+    @SerializedName("coord")
+    @Expose
+    public Coord coord;
 
 
     public class Main{
@@ -42,6 +45,14 @@ public class WeatherResponse {
         public float speed;
 
     }
+    public class Coord {
 
+        @SerializedName("lon")
+        @Expose
+        public Double lon;
+        @SerializedName("lat")
+        @Expose
+        public Double lat;
 
+    }
 }
