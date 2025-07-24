@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_margin="10dp"
+    android:padding="16dp"
+    android:orientation="vertical">
+
+    <TextView
+        android:id="@+id/titeleTextView0"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:text="Выполните одно из действий:"/>
+
+
+
+    <EditText
+        android:id="@+id/editCity"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Введите название города"/>
+
+    <TextView
+        android:id="@+id/titeleTextView1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:paddingTop="5pt"
+        android:text="или вставьте координаты"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:paddingTop="1dp"
+        android:orientation="horizontal">
+
+        <EditText
+            android:id="@+id/editCoordLat"
+            android:layout_width="0pt"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+
+            android:hint="Latitude (широта)"/>
+
+        <EditText
+            android:id="@+id/editCoordLon"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:hint="Longitude (долгота)"/>
+
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/titeleTextView2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:paddingTop="5pt"
+        android:paddingBottom="5dp"
+        android:text="или получите координаты текущего положения нажатием на кнопку:"/>
+
+    <Button
+        android:id="@+id/btnGetCoord"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Получить текущие координаты"/>
+
+    <TextView
+        android:id="@+id/titeleTextView3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:paddingTop="5pt"
+        android:paddingBottom="5dp"
+        android:text="для получения результатов нажмите кнопку ниже:"/>
+
+    <Button
+        android:id="@+id/btnGet"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingTop="5pt"
+        android:text="Показать погоду"/>
+
+    <TextView
+        android:id="@+id/textResult"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textSize="21sp"
+        android:paddingTop="16dp"/>
+
+
+</LinearLayout>
