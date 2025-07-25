@@ -2,6 +2,7 @@ package ru.mkits.mygpsweatherapp;
 
 
 import android.content.IntentFilter;
+import android.location.LocationManager;
 import android.os.Bundle;
 import android.widget.TextView;
 
@@ -14,30 +15,12 @@ import java.util.Date;
 import java.util.Locale;
 
 public class MainActivity2 extends AppCompatActivity {
-/*
-    TextView tw2;
-
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main2);
-        tw2=findViewById(R.id.tw2);
-
-        savedInstanceState = getIntent().getExtras();
-
-        if (savedInstanceState != null)
-        {
-            String name = savedInstanceState.get("hello").toString();
-            tw2.setText(name);
-        }
-
-    }*/
-
     AlertDialog alertDialog;
     boolean isDialogVisible;
     TextView statusTextView;
     TextView logTextView;
     NetworkChangeReceiver networkReceiver;
+    GpsReciever gpsReceiver;
 
     ArrayList<String> logList = new ArrayList<>();
 
@@ -47,15 +30,21 @@ public class MainActivity2 extends AppCompatActivity {
         setContentView(R.layout.activity_main2);
         statusTextView = findViewById(R.id.statusTextView);
         logTextView = findViewById(R.id.logTextView);
+
         networkReceiver = new NetworkChangeReceiver(this);
         IntentFilter filter = new IntentFilter("android.net.conn.CONNECTIVITY_CHANGE");
         registerReceiver(networkReceiver, filter);
+
+        gpsReceiver = new GpsReciever(this);
+        IntentFilter gpsFilter = new IntentFilter(LocationManager.PROVIDERS_CHANGED_ACTION);
+        registerReceiver(gpsReceiver, gpsFilter);
     }
 
     @Override
     protected void onDestroy() {
         super.onDestroy();
         unregisterReceiver(networkReceiver);
+        unregisterReceiver(gpsReceiver);
     }
 
     public void showConnectDialog() {
