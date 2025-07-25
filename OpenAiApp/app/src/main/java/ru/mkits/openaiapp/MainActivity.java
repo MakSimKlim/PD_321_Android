@@ -39,12 +39,13 @@ public class MainActivity extends AppCompatActivity {
 
     // Персонажи
     String[] personas = {
+            "В обычной манере (без роли)",
             "Гопник",
             "Учёный",
             "Поэт",
             "Академик",
-            "Пират",
-            "В обычной манере (без роли)"
+            "Пират"
+
     };
     DeepSeekApi apiService;
 
