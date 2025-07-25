@@ -12,17 +12,30 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:paddingTop="20pt"
+        android:padding="10pt"
         android:text="Выполните одно из действий:"/>
 
 
-
-
-    <EditText
-        android:id="@+id/editCity"
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="Введите название города:" />
+        android:orientation="horizontal">
+
+        <EditText
+            android:id="@+id/editCity"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:hint="Введите название города:" />
+
+        <Button
+            android:id="@+id/btnClearCity"
+            android:layout_width="55dp"
+            android:layout_height="wrap_content"
+            android:text="С" />
+
+    </LinearLayout>
+
 
 
 
@@ -39,7 +52,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:paddingTop="1dp"
+        android:padding="2dp"
         android:orientation="horizontal">
 
         <EditText
@@ -49,6 +62,11 @@
             android:layout_weight="1"
 
             android:hint="Latitude (широта)"/>
+        <Button
+            android:id="@+id/btnClearLat"
+            android:layout_width="55dp"
+            android:layout_height="wrap_content"
+            android:text="С" />
 
         <EditText
             android:id="@+id/edtCoordLon"
@@ -56,6 +74,11 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:hint="Longitude (долгота)"/>
+        <Button
+            android:id="@+id/btnClearLon"
+            android:layout_width="55dp"
+            android:layout_height="wrap_content"
+            android:text="С" />
 
     </LinearLayout>
 
@@ -103,7 +126,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:text="Показать погоду"/>
+        android:text="Показать погоду на текущий момент"/>
 
     <TextView
         android:id="@+id/txtResult"
@@ -123,6 +146,13 @@
         android:id="@+id/btnClear1"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Очистить всё" />
+        android:text="Очистить всё (C)" />
+
+    <TextView
+        android:id="@+id/txtFooter"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textSize="5pt"
+        android:hint="Info"/>
 
 </LinearLayout>
