@@ -86,30 +86,45 @@
         android:id="@+id/titeleTextView2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:gravity="center"
+        android:layout_gravity="center"
         android:paddingTop="5pt"
         android:paddingBottom="5dp"
-        android:text="или получите координаты текущего положения нажатием на кнопку:"/>
+        android:text="или получите координаты текущего положения:"/>
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_gravity="center"
         android:orientation="horizontal">
-        <!--<Button
-            android:id="@+id/btnClear1"
+
+        <!-- Блок с TextView и Spinner -->
+        <LinearLayout
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
-            android:text="Очистить"/>-->
+            android:orientation="vertical"
+            android:gravity="center_vertical">
 
+            <TextView
+                android:id="@+id/titleTextViewGeo"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:text="Источник геолокации:"/>
+
+            <Spinner
+                android:id="@+id/personaSpinner"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:spinnerMode="dropdown"/>
+        </LinearLayout>
+
+        <!-- Кнопка -->
         <Button
             android:id="@+id/btnGetCoord"
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:layout_weight="1"
             android:text="Получить текущие координаты"/>
-
     </LinearLayout>
 
     <TextView
@@ -142,11 +157,36 @@
         android:layout_height="0dp"
         android:layout_weight="1" />
 
-    <Button
-        android:id="@+id/btnClear1"
-        android:layout_width="wrap_content"
+    <LinearLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Очистить всё (C)" />
+        android:layout_gravity="center"
+        android:padding="2dp"
+        android:orientation="horizontal">
+
+        <Button
+            android:id="@+id/btnClear1"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:text="Очистить всё (C)" />
+
+        <Button
+            android:id="@+id/btnAi"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:text="AI" />
+
+        <Button
+            android:id="@+id/btnLogJournal"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:text="Журнал" />
+
+    </LinearLayout>
+
 
     <TextView
         android:id="@+id/txtFooter"

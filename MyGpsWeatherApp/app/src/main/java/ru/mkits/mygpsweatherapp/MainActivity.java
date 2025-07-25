@@ -1,6 +1,7 @@
 package ru.mkits.mygpsweatherapp;
 
 import android.Manifest;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.location.Location;
 import android.location.LocationListener;
@@ -28,12 +29,15 @@ import com.yandex.mapkit.map.CameraPosition;
 import com.yandex.mapkit.mapview.MapView;
 
 import java.net.HttpURLConnection;
+import java.util.ArrayList;
 
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
+
+import androidx.appcompat.app.AlertDialog;
 
 public class MainActivity extends AppCompatActivity {
     final int LOCATION_PERMISSION_CODE =1;
@@ -50,12 +54,14 @@ public class MainActivity extends AppCompatActivity {
     Button buttonGetCoord;
     TextView textResult;
     Button buttonGetResult;
+    Button buttonJournal;
 
     TextView textFooter;
     WeatherApi weatherApi;
     LocationManager locationManager;
     MapView mapView;
     float zoom = 12.0f; // задаем глобальную переменную zoom для приближения карты
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -72,6 +78,7 @@ public class MainActivity extends AppCompatActivity {
         buttonClearLon = findViewById(R.id.btnClearLon);
         buttonGetCoord = findViewById(R.id.btnGetCoord);
         buttonGetResult = findViewById(R.id.btnGet);
+        buttonJournal = findViewById(R.id.btnLogJournal);
         textResult = findViewById(R.id.txtResult);
         textFooter = findViewById(R.id.txtFooter);
         mapView = findViewById(R.id.mapView);
@@ -84,6 +91,15 @@ public class MainActivity extends AppCompatActivity {
         setupEnterAction(editCoordLon, editCity, editCoordLat, editCoordLon);
         setupEnterAction(editCity, editCity, editCoordLat, editCoordLon);
 
+        //Кнопка перехода в журнал
+        buttonJournal.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(MainActivity.this, MainActivity2.class);
+                startActivity(intent);
+                //finish();
+            }
+        });
 
         // кнопки Очистить
         buttonClear.setOnClickListener(new View.OnClickListener() {
@@ -200,7 +216,6 @@ public class MainActivity extends AppCompatActivity {
         MapKitFactory.getInstance().onStop();
         super.onStop();
     }
-
 
     // метод для скрытия клавиатуры
     private void hideKeyboard() {
