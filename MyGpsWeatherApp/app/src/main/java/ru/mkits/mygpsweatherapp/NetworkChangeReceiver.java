@@ -24,13 +24,17 @@ public class NetworkChangeReceiver extends BroadcastReceiver {
             String connectionType = getConnectionType(context);
             activity.runOnUiThread(()->{
                 if (isConnected) {
+                    activity.isInternetLost = false;
                     activity.dismissConnectionDialog();
-                    activity.updateStatus("Интернет есть (" + connectionType + ")");
+                    activity.updateStatus("Интернет включен (" + connectionType + ")");
                     activity.addLogEntry("Интернет восстановлен (" + connectionType + ")");
+                    activity.checkCombinedSignalStatus(); // вызываем проверку совместного статуса
                 }else {
+                    activity.isInternetLost = true;
                     activity.showConnectDialog();
-                    activity.updateStatus("Интернета нет");
-                    activity.addLogEntry("Интернет потерян");
+                    activity.updateStatus("Интернет отключен");
+                    activity.addLogEntry("Интернет отключен или сигнал потерян");
+                    activity.checkCombinedSignalStatus(); // вызываем проверку совместного статуса
                 }
             });
         });
@@ -54,14 +58,6 @@ public class NetworkChangeReceiver extends BroadcastReceiver {
         return "Нет соединения";
     }
     //=============================================================
-    private boolean checkInternet(Context context){
-        ConnectivityManager cm = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
-        if (cm != null) {
-            NetworkInfo active = cm.getActiveNetworkInfo();
-            return active !=null && active.isConnected();
-        }
-        return false;
-    }
 
     private boolean isInternetReachable(){
         try {

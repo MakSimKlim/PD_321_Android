@@ -17,11 +17,17 @@ public class GpsReciever extends BroadcastReceiver {
         boolean gpsEnabled = isLocationEnabled(context);
         activity.runOnUiThread(() -> {
             if (gpsEnabled) {
-                activity.updateStatus("GPS включён");
-                activity.addLogEntry("GPS включён");
+                activity.isGpsLost = false;
+                activity.dismissGpsDialog();
+                activity.updateGpsStatus("GPS включен");
+                activity.addLogEntry("GPS восстановлен");
+                activity.checkCombinedSignalStatus(); // вызываем проверку совместного статуса
             } else {
-                activity.updateStatus("GPS отключён или сигнал потерян");
-                activity.addLogEntry("GPS отключён или сигнал потерян");
+                activity.isGpsLost = true;
+                activity.showGpsDialog();
+                activity.updateGpsStatus("GPS отключен");
+                activity.addLogEntry("GPS отключен или сигнал потерян");
+                activity.checkCombinedSignalStatus();// вызываем проверку совместного статуса
             }
         });
     }
