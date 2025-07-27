@@ -12,8 +12,11 @@ import android.view.KeyEvent;
 import android.view.View;
 import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -55,12 +58,21 @@ public class MainActivity extends AppCompatActivity {
     TextView textResult;
     Button buttonGetResult;
     Button buttonJournal;
-
+    Spinner personaSpinner;
     TextView textFooter;
     WeatherApi weatherApi;
     LocationManager locationManager;
     MapView mapView;
     float zoom = 12.0f; // задаем глобальную переменную zoom для приближения карты
+
+    String[] locationProviders = {
+            LocationManager.GPS_PROVIDER,           // Спутники GPS (Очень высокая точность, высокое энергопотребление)
+            LocationManager.PASSIVE_PROVIDER,   	// Все источники + алгоритмы (Высокая точность, оптимизированное энергопотребление)
+            LocationManager.NETWORK_PROVIDER,       // Wi-Fi и мобильные сети (Средняя точность, среднее энергопотребление)
+            LocationManager.FUSED_PROVIDER,         // Источники других приложений (Точность зависит от источника, низкое энергопотребление)
+
+    };
+    String selectedProvider = LocationManager.GPS_PROVIDER;
 
 
     @Override
@@ -84,12 +96,33 @@ public class MainActivity extends AppCompatActivity {
         mapView = findViewById(R.id.mapView);
         locationManager =(LocationManager) getSystemService(LOCATION_SERVICE);
 
+
         // Привязка метода нажатия кнопки Enter для заполнения полей EditText
         //первый аргумент — это поле, в котором пользователь нажимает Enter.
         // Остальные — те, с которыми метод будет работать (очищать их, скрывать клавиатуру и т. д.)
         setupEnterAction(editCoordLat, editCity, editCoordLat, editCoordLon);
         setupEnterAction(editCoordLon, editCity, editCoordLat, editCoordLon);
         setupEnterAction(editCity, editCity, editCoordLat, editCoordLon);
+
+        //Инициализируем Spinner
+        personaSpinner = findViewById(R.id.personaSpinner);
+        ArrayAdapter<String> adapter = new ArrayAdapter<>(this,
+                android.R.layout.simple_spinner_item, locationProviders);
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        personaSpinner.setAdapter(adapter);
+        personaSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                selectedProvider = locationProviders[position];
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+                selectedProvider = LocationManager.GPS_PROVIDER;
+
+            }
+        });
+
 
         //Кнопка перехода в журнал
         buttonJournal.setOnClickListener(new View.OnClickListener() {
@@ -282,7 +315,9 @@ public class MainActivity extends AppCompatActivity {
 
     private void getLocation() {
         if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
-            locationManager.requestSingleUpdate(LocationManager.NETWORK_PROVIDER, new LocationListener() {
+            //locationManager.requestSingleUpdate(LocationManager.GPS_PROVIDER, new LocationListener() {
+            //locationManager.requestSingleUpdate(LocationManager.NETWORK_PROVIDER, new LocationListener() {
+            locationManager.requestSingleUpdate(selectedProvider, new LocationListener() {
                 @Override
                 public void onLocationChanged(@NonNull Location location) {
                     double lat = location.getLatitude();
@@ -296,7 +331,7 @@ public class MainActivity extends AppCompatActivity {
                     textResult.setText(info);*/
 
                     coordInsert(lat, lon);          // вызов метода установки значений в поля координат
-
+                    Log.d("GPS",lat+" "+lon);
                     /*
                     // Устанавливаем в поля координаты
                     editCoordLat.setText(String.valueOf(lat));

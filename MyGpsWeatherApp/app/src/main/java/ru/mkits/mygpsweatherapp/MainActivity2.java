@@ -9,6 +9,7 @@ import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.widget.TextView;
 
+import androidx.activity.OnBackPressedCallback;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -60,6 +61,8 @@ public class MainActivity2 extends AppCompatActivity {
         gpsReceiver = new GpsReciever(this);
         IntentFilter gpsFilter = new IntentFilter(LocationManager.PROVIDERS_CHANGED_ACTION);
         registerReceiver(gpsReceiver, gpsFilter);
+
+
     }
 
     @Override
@@ -194,4 +197,7 @@ public class MainActivity2 extends AppCompatActivity {
         }
         logTextView.setText(sb.toString());
     }
+
+
+
 }
