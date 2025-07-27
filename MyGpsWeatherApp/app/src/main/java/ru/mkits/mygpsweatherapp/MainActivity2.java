@@ -12,13 +12,18 @@ import android.widget.TextView;
 import androidx.activity.OnBackPressedCallback;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.room.Room;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.Locale;
+import java.util.List;
 
 public class MainActivity2 extends AppCompatActivity {
+    String LOG_TAG="Sqlite";
+    AppDatabase db;
+    journalEventDao journalEventDao;
     AlertDialog alertDialog;
     AlertDialog alertDialogGPS;
     AlertDialog alertDialogGPSInternet;
@@ -33,7 +38,7 @@ public class MainActivity2 extends AppCompatActivity {
     NetworkChangeReceiver networkReceiver;
     GpsReciever gpsReceiver;
 
-    ArrayList<String> logList = new ArrayList<>();
+    //ArrayList<String> logList = new ArrayList<>(); // т.к. всё теперь через базу данных, то Log лист не нужен
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,6 +47,13 @@ public class MainActivity2 extends AppCompatActivity {
         statusTextView = findViewById(R.id.statusTextView);
         statusTextViewGPS = findViewById(R.id.statusTextViewGPS);
         logTextView = findViewById(R.id.logTextView);
+        //logList = new ArrayList<>();
+
+        // создаем и подключаем базу данных
+        db = Room.databaseBuilder(getApplicationContext(),
+                AppDatabase.class,"myDb").allowMainThreadQueries().build();
+        //AppDatabase.class,"myDb").addMigrations(AppDatabase.MIGRATION_1_2).allowMainThreadQueries().build(); //Если нужна миграция для изменения таблицы базы данных
+        journalEventDao = db.journalEventDao();
 
         checkInitialGpsStatus();// первичная проверка GPS сигнала
 
@@ -62,6 +74,22 @@ public class MainActivity2 extends AppCompatActivity {
         IntentFilter gpsFilter = new IntentFilter(LocationManager.PROVIDERS_CHANGED_ACTION);
         registerReceiver(gpsReceiver, gpsFilter);
 
+
+        // создаем и подключаем базу данных
+        db = Room.databaseBuilder(getApplicationContext(),
+                AppDatabase.class,"myDb").allowMainThreadQueries().build();
+        //AppDatabase.class,"myDb").addMigrations(AppDatabase.MIGRATION_1_2).allowMainThreadQueries().build(); //Если нужна миграция для изменения таблицы базы данных
+        journalEventDao = db.journalEventDao();
+
+        /*// Загружаем сохранённые события из базы в logList
+        List<journalEvent> logs = journalEventDao.getAll();
+        SimpleDateFormat sdf = new SimpleDateFormat("HH:mm:ss", Locale.getDefault());
+        for (journalEvent e : logs) {
+            String formatted = "[" + sdf.format(e.date) + "] " + e.event;
+            logList.add(0, formatted);
+        }*/
+
+        updateLogView();
 
     }
 
@@ -185,16 +213,30 @@ public class MainActivity2 extends AppCompatActivity {
     }
 
     public void addLogEntry(String message){
+        Date now = new Date();
         String timestamp = new SimpleDateFormat("HH:mm:ss", Locale.getDefault()).format(new Date());
         String entry = "["+timestamp + "] " +message;
-        logList.add(0,entry);
-        updateLogView();
+        //logList.add(0,entry);
+        // 🗄️ Сохраняем сразу в базу данных
+        journalEvent event = new journalEvent();
+        event.date = now;
+        event.event = message;
+        journalEventDao.insert(event);
+        // Обновляем отображение
+        updateLogView();// теперь обновление будет из базы
     }
     public void updateLogView(){
+        List<journalEvent> logs = journalEventDao.getAll();
         StringBuilder sb = new StringBuilder();
-        for (String entry:logList){
+        SimpleDateFormat sdf = new SimpleDateFormat("dd.MM.yyyy HH:mm:ss", Locale.getDefault());
+        /*for (String entry:logList){
             sb.append(entry).append("\n");
+        }*/
+        for (journalEvent e : logs){
+            sb.append("[").append(sdf.format(e.date)).append("] ")
+                    .append(e.event).append("\n");
         }
+
         logTextView.setText(sb.toString());
     }
 
