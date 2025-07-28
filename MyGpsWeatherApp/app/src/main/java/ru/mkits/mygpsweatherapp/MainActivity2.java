@@ -7,6 +7,7 @@ import android.location.LocationManager;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Bundle;
+import android.widget.Button;
 import android.widget.TextView;
 
 import androidx.activity.OnBackPressedCallback;
@@ -19,6 +20,8 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.Locale;
 import java.util.List;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 public class MainActivity2 extends AppCompatActivity {
     String LOG_TAG="Sqlite";
@@ -35,6 +38,7 @@ public class MainActivity2 extends AppCompatActivity {
     TextView statusTextView;
     TextView statusTextViewGPS;
     TextView logTextView;
+    Button btnClearJournal;
     NetworkChangeReceiver networkReceiver;
     GpsReciever gpsReceiver;
 
@@ -47,13 +51,34 @@ public class MainActivity2 extends AppCompatActivity {
         statusTextView = findViewById(R.id.statusTextView);
         statusTextViewGPS = findViewById(R.id.statusTextViewGPS);
         logTextView = findViewById(R.id.logTextView);
+        btnClearJournal = findViewById(R.id.btnClearJournal);
         //logList = new ArrayList<>();
 
         // создаем и подключаем базу данных
+        /*
+        // так можно писать только в учебных проектах, т.к. разрешается выполнение запросов к базе данных в главном потоке
         db = Room.databaseBuilder(getApplicationContext(),
                 AppDatabase.class,"myDb").allowMainThreadQueries().build();
         //AppDatabase.class,"myDb").addMigrations(AppDatabase.MIGRATION_1_2).allowMainThreadQueries().build(); //Если нужна миграция для изменения таблицы базы данных
-        journalEventDao = db.journalEventDao();
+        journalEventDao = db.journalEventDao();*/
+        // для продакшена нужно делать с созданием фонового потока для запроса к базе данных:
+        ExecutorService executor = Executors.newSingleThreadExecutor();
+
+        executor.execute(() -> {
+            AppDatabase db = Room.databaseBuilder(getApplicationContext(),
+                            AppDatabase.class, "myDb")
+                    //.addMigrations(AppDatabase.MIGRATION_1_2) // Раскомментируй, если нужна миграция
+                    .build();
+
+            journalEventDao journalEventDao = db.journalEventDao();
+            List<journalEvent> events = journalEventDao.getAll(); // Пример запроса
+
+            runOnUiThread(() -> {
+                // Обнови UI с полученными данными
+            });
+        });
+
+
 
         checkInitialGpsStatus();// первичная проверка GPS сигнала
 
