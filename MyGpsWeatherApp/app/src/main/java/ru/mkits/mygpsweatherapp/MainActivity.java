@@ -57,6 +57,7 @@ public class MainActivity extends AppCompatActivity {
     Button buttonGetCoord;
     TextView textResult;
     Button buttonGetResult;
+    Button btnAi;
     Button buttonJournal;
     Spinner personaSpinner;
     TextView textFooter;
@@ -90,6 +91,7 @@ public class MainActivity extends AppCompatActivity {
         buttonClearLon = findViewById(R.id.btnClearLon);
         buttonGetCoord = findViewById(R.id.btnGetCoord);
         buttonGetResult = findViewById(R.id.btnGet);
+        btnAi = findViewById(R.id.btnAi);
         buttonJournal = findViewById(R.id.btnLogJournal);
         textResult = findViewById(R.id.txtResult);
         textFooter = findViewById(R.id.txtFooter);
@@ -131,6 +133,15 @@ public class MainActivity extends AppCompatActivity {
                 Intent intent = new Intent(MainActivity.this, MainActivity2.class);
                 startActivity(intent);
                 //finish();
+            }
+        });
+
+        //кнопка перехода в активити с нейросетью
+        btnAi.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(MainActivity.this, MainActivity3.class);
+                startActivity(intent);
             }
         });
 

@@ -1,6 +1,5 @@
 package ru.mkits.mygpsweatherapp;
 
-
 import android.content.Context;
 import android.content.IntentFilter;
 import android.location.LocationManager;
@@ -132,7 +131,6 @@ public class MainActivity2 extends AppCompatActivity {
                 runOnUiThread(this::updateLogView); // обновим интерфейс
             });
         });
-
     }
 
     @Override
