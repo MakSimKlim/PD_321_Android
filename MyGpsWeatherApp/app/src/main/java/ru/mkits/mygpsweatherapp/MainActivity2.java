@@ -150,7 +150,7 @@ public class MainActivity2 extends AppCompatActivity {
             AlertDialog.Builder builder = new AlertDialog.Builder(this);
             builder.setTitle("Интернет соединение недоступно")
                     .setMessage("Проверьте подключение интернет соединения")
-                    .setCancelable(false);
+                    .setCancelable(true);// если false диалоговое окно невозможно закрыть кнопкой "назад"
             alertDialog = builder.create();
             alertDialog.show();
             isDialogVisible = true;
@@ -173,7 +173,7 @@ public class MainActivity2 extends AppCompatActivity {
             AlertDialog.Builder builder = new AlertDialog.Builder(this);
             builder.setTitle("Сигнал GPS недоступен")
                     .setMessage("Проверьте подключение к GPS сигналу")
-                    .setCancelable(false);
+                    .setCancelable(true);// если false диалоговое окно невозможно закрыть кнопкой "назад"
             alertDialogGPS = builder.create();
             alertDialogGPS.show();
             isGpsDialogVisible = true;
@@ -196,7 +196,7 @@ public class MainActivity2 extends AppCompatActivity {
             AlertDialog.Builder builder = new AlertDialog.Builder(this);
             builder.setTitle("Интернет и GPS недоступны")
                     .setMessage("Оба сигнала потеряны. Проверьте соединение и включите GPS.")
-                    .setCancelable(false);
+                    .setCancelable(true);// если false диалоговое окно невозможно закрыть кнопкой "назад"
             alertDialogGPSInternet = builder.create();
             alertDialogGPSInternet.show();
             isGpsInternetDialogVisible = true;

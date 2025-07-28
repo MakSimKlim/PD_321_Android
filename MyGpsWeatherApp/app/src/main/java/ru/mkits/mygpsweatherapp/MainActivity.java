@@ -314,9 +314,20 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void getLocation() {
-        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
+        /*if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
             //locationManager.requestSingleUpdate(LocationManager.GPS_PROVIDER, new LocationListener() {
             //locationManager.requestSingleUpdate(LocationManager.NETWORK_PROVIDER, new LocationListener() {
+            locationManager.requestSingleUpdate(selectedProvider, new LocationListener() {*/
+        // Проверка активности выбранного провайдера
+        if (!locationManager.isProviderEnabled(selectedProvider)) {
+            Toast.makeText(this,
+                    "Провайдер \"" + selectedProvider + "\" отключён.\nВыберите другой в списке.",
+                    Toast.LENGTH_LONG).show();
+            return;
+        }
+
+        // Попытка получения координат с безопасной обработкой исключения
+        try {
             locationManager.requestSingleUpdate(selectedProvider, new LocationListener() {
                 @Override
                 public void onLocationChanged(@NonNull Location location) {
@@ -331,7 +342,7 @@ public class MainActivity extends AppCompatActivity {
                     textResult.setText(info);*/
 
                     coordInsert(lat, lon);          // вызов метода установки значений в поля координат
-                    Log.d("GPS",lat+" "+lon);
+                    Log.d("GPS", lat + " " + lon);
                     /*
                     // Устанавливаем в поля координаты
                     editCoordLat.setText(String.valueOf(lat));
@@ -343,11 +354,13 @@ public class MainActivity extends AppCompatActivity {
                     mapView.getMap().move(new CameraPosition(new Point(lat,lon),15.0f,0.0f,0.0f),new Animation(Animation.Type.SMOOTH,1),null);
                     mapView.getMap().getMapObjects().addPlacemark(new Point(lat, lon));//добавляем полученную точку на карту в виде маркера
                     */
-
-
                 }
-            },null);
-
+            }, null);
+        } catch (SecurityException e) {
+            Toast.makeText(this,
+                    "Ошибка доступа к локации: " + e.getMessage(),
+                    Toast.LENGTH_SHORT).show();
+            Log.e("GPS", "SecurityException: " + e.toString());
         }
     }
 
