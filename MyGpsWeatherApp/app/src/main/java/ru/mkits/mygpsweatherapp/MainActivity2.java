@@ -48,8 +48,6 @@ public class MainActivity2 extends AppCompatActivity {
 
     //ArrayList<String> logList = new ArrayList<>(); // т.к. всё теперь через базу данных, то Log лист не нужен
 
-
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -85,7 +83,11 @@ public class MainActivity2 extends AppCompatActivity {
             checkInitialGpsStatus();// первичная проверка GPS сигнала
 
             // обновляем UI после записи
-            runOnUiThread(this::updateLogView);
+            //runOnUiThread(this::updateLogView);
+            runOnUiThread(() -> {
+                checkInitialGpsStatus();
+                updateLogView();
+            });
         });
         Log.d(LOG_TAG, "База и DAO инициализированы");
 
@@ -238,7 +240,7 @@ public class MainActivity2 extends AppCompatActivity {
             addLogEntry("GPS восстановлен");
         } else {
             updateGpsStatus("GPS отключен");
-            showGpsDialog(); // вызвать явно!
+            runOnUiThread(() -> showGpsDialog()); // вызвать явно и обязательно из главного потока!
             addLogEntry("GPS отключен или сигнал потерян");
         }
     }
