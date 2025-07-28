@@ -7,8 +7,11 @@ import android.location.LocationManager;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Bundle;
+import android.util.Log;
+import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.activity.OnBackPressedCallback;
 import androidx.appcompat.app.AlertDialog;
@@ -60,25 +63,6 @@ public class MainActivity2 extends AppCompatActivity {
         // Инициализация executor и базы данных — единоразово!
         executor = Executors.newSingleThreadExecutor();
 
-        checkInitialGpsStatus();// первичная проверка GPS сигнала
-
-        // Проверка текущего состояния GPS и интернета вручную при первичном запуске
-        // для условия одновременного отсутствия всех сигналов и корректного вывода
-        // совместного модального окна при первичном запуске приложения
-        // Инициализируем флаги вручную
-        isGpsLost = !isLocationEnabled(this);
-        isInternetLost = !isNetworkAvailable(this);
-        // Сразу проверяем комбинированное состояние
-        checkCombinedSignalStatus();
-
-        networkReceiver = new NetworkChangeReceiver(this);
-        IntentFilter filter = new IntentFilter("android.net.conn.CONNECTIVITY_CHANGE");
-        registerReceiver(networkReceiver, filter);
-
-        gpsReceiver = new GpsReciever(this);
-        IntentFilter gpsFilter = new IntentFilter(LocationManager.PROVIDERS_CHANGED_ACTION);
-        registerReceiver(gpsReceiver, gpsFilter);
-
         // создаем и подключаем базу данных
         /*
         // так можно писать только в учебных проектах, т.к. разрешается выполнение запросов к базе данных в главном потоке
@@ -98,11 +82,31 @@ public class MainActivity2 extends AppCompatActivity {
             journalEventDao = db.journalEventDao();
             List<journalEvent> events = journalEventDao.getAll(); // Пример запроса — получаем все записи
 
-            runOnUiThread(() -> {
-                // обновляем UI после записи
-                runOnUiThread(this::updateLogView);
-            });
+            checkInitialGpsStatus();// первичная проверка GPS сигнала
+
+            // обновляем UI после записи
+            runOnUiThread(this::updateLogView);
         });
+        Log.d(LOG_TAG, "База и DAO инициализированы");
+
+
+        // Проверка текущего состояния GPS и интернета вручную при первичном запуске
+        // для условия одновременного отсутствия всех сигналов и корректного вывода
+        // совместного модального окна при первичном запуске приложения
+        // Инициализируем флаги вручную
+        isGpsLost = !isLocationEnabled(this);
+        isInternetLost = !isNetworkAvailable(this);
+        // Сразу проверяем комбинированное состояние
+        checkCombinedSignalStatus();
+
+        networkReceiver = new NetworkChangeReceiver(this);
+        IntentFilter filter = new IntentFilter("android.net.conn.CONNECTIVITY_CHANGE");
+        registerReceiver(networkReceiver, filter);
+
+        gpsReceiver = new GpsReciever(this);
+        IntentFilter gpsFilter = new IntentFilter(LocationManager.PROVIDERS_CHANGED_ACTION);
+        registerReceiver(gpsReceiver, gpsFilter);
+
 
         /*// Загружаем сохранённые события из базы в logList
         List<journalEvent> logs = journalEventDao.getAll();
@@ -113,6 +117,19 @@ public class MainActivity2 extends AppCompatActivity {
         }*/
 
         //updateLogView();
+
+        //более лаконичная запись через лямбду очищения всех данных из базы асинхронно
+        btnClearJournal.setOnClickListener(v -> {
+            executor.execute(() -> {
+                int count = journalEventDao.clearAll();
+                Log.d(LOG_TAG, "удалено записей из базы данных: " + count);
+                // Показать уведомление пользователю
+                runOnUiThread(() ->
+                        Toast.makeText(this, "Журнал очищен", Toast.LENGTH_SHORT).show()
+                );
+                runOnUiThread(this::updateLogView); // обновим интерфейс
+            });
+        });
 
     }
 
@@ -247,9 +264,15 @@ public class MainActivity2 extends AppCompatActivity {
         journalEvent event = new journalEvent();
         event.date = now;
         event.event = message;
-        journalEventDao.insert(event);
-        // Обновляем отображение
-        updateLogView();// теперь обновление будет из базы
+        executor.execute(() -> {
+            try {
+                journalEventDao.insert(event);
+                // Обновляем UI после успешной записи
+                runOnUiThread(this::updateLogView);
+            } catch (Exception e) {
+                Log.e(LOG_TAG, "Ошибка вставки события в базу", e);
+            }
+        });
     }
     public void updateLogView(){
         //асинхронно обновляем данные в LogView из базы данных
