@@ -25,7 +25,8 @@ import java.util.concurrent.Executors;
 
 public class MainActivity2 extends AppCompatActivity {
     String LOG_TAG="Sqlite";
-    AppDatabase db;
+    private ExecutorService executor; // для асинхронноно потока
+    private AppDatabase db;
     journalEventDao journalEventDao;
     AlertDialog alertDialog;
     AlertDialog alertDialogGPS;
@@ -44,41 +45,20 @@ public class MainActivity2 extends AppCompatActivity {
 
     //ArrayList<String> logList = new ArrayList<>(); // т.к. всё теперь через базу данных, то Log лист не нужен
 
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main2);
+        // Инициализация UI элементов
         statusTextView = findViewById(R.id.statusTextView);
         statusTextViewGPS = findViewById(R.id.statusTextViewGPS);
         logTextView = findViewById(R.id.logTextView);
         btnClearJournal = findViewById(R.id.btnClearJournal);
         //logList = new ArrayList<>();
-
-        // создаем и подключаем базу данных
-        /*
-        // так можно писать только в учебных проектах, т.к. разрешается выполнение запросов к базе данных в главном потоке
-        db = Room.databaseBuilder(getApplicationContext(),
-                AppDatabase.class,"myDb").allowMainThreadQueries().build();
-        //AppDatabase.class,"myDb").addMigrations(AppDatabase.MIGRATION_1_2).allowMainThreadQueries().build(); //Если нужна миграция для изменения таблицы базы данных
-        journalEventDao = db.journalEventDao();*/
-        // для продакшена нужно делать с созданием фонового потока для запроса к базе данных:
-        ExecutorService executor = Executors.newSingleThreadExecutor();
-
-        executor.execute(() -> {
-            AppDatabase db = Room.databaseBuilder(getApplicationContext(),
-                            AppDatabase.class, "myDb")
-                    //.addMigrations(AppDatabase.MIGRATION_1_2) // Раскомментируй, если нужна миграция
-                    .build();
-
-            journalEventDao journalEventDao = db.journalEventDao();
-            List<journalEvent> events = journalEventDao.getAll(); // Пример запроса
-
-            runOnUiThread(() -> {
-                // Обнови UI с полученными данными
-            });
-        });
-
-
+        // Инициализация executor и базы данных — единоразово!
+        executor = Executors.newSingleThreadExecutor();
 
         checkInitialGpsStatus();// первичная проверка GPS сигнала
 
@@ -99,12 +79,30 @@ public class MainActivity2 extends AppCompatActivity {
         IntentFilter gpsFilter = new IntentFilter(LocationManager.PROVIDERS_CHANGED_ACTION);
         registerReceiver(gpsReceiver, gpsFilter);
 
-
         // создаем и подключаем базу данных
+        /*
+        // так можно писать только в учебных проектах, т.к. разрешается выполнение запросов к базе данных в главном потоке
         db = Room.databaseBuilder(getApplicationContext(),
                 AppDatabase.class,"myDb").allowMainThreadQueries().build();
         //AppDatabase.class,"myDb").addMigrations(AppDatabase.MIGRATION_1_2).allowMainThreadQueries().build(); //Если нужна миграция для изменения таблицы базы данных
-        journalEventDao = db.journalEventDao();
+        journalEventDao = db.journalEventDao();*/
+
+        // для продакшена нужно делать с созданием фонового потока для запроса к базе данных:
+        // Подключаемся к базе и DAO асинхронно
+        executor.execute(() -> {
+            db = Room.databaseBuilder(getApplicationContext(),
+                            AppDatabase.class, "myDb")
+                    //.addMigrations(AppDatabase.MIGRATION_1_2) // Раскомментируй, если нужна миграция
+                    .build();
+
+            journalEventDao = db.journalEventDao();
+            List<journalEvent> events = journalEventDao.getAll(); // Пример запроса — получаем все записи
+
+            runOnUiThread(() -> {
+                // обновляем UI после записи
+                runOnUiThread(this::updateLogView);
+            });
+        });
 
         /*// Загружаем сохранённые события из базы в logList
         List<journalEvent> logs = journalEventDao.getAll();
@@ -114,7 +112,7 @@ public class MainActivity2 extends AppCompatActivity {
             logList.add(0, formatted);
         }*/
 
-        updateLogView();
+        //updateLogView();
 
     }
 
@@ -123,6 +121,9 @@ public class MainActivity2 extends AppCompatActivity {
         super.onDestroy();
         unregisterReceiver(networkReceiver);
         unregisterReceiver(gpsReceiver);
+        if (executor != null && !executor.isShutdown()) {
+            executor.shutdown();
+        }
     }
 
     // =========  модальное окно потери Интернет сигнала ===============
@@ -242,7 +243,7 @@ public class MainActivity2 extends AppCompatActivity {
         String timestamp = new SimpleDateFormat("HH:mm:ss", Locale.getDefault()).format(new Date());
         String entry = "["+timestamp + "] " +message;
         //logList.add(0,entry);
-        // 🗄️ Сохраняем сразу в базу данных
+        // Сохраняем сразу в базу данных
         journalEvent event = new journalEvent();
         event.date = now;
         event.event = message;
@@ -251,20 +252,20 @@ public class MainActivity2 extends AppCompatActivity {
         updateLogView();// теперь обновление будет из базы
     }
     public void updateLogView(){
-        List<journalEvent> logs = journalEventDao.getAll();
-        StringBuilder sb = new StringBuilder();
-        SimpleDateFormat sdf = new SimpleDateFormat("dd.MM.yyyy HH:mm:ss", Locale.getDefault());
+        //асинхронно обновляем данные в LogView из базы данных
+        executor.execute(() -> {
+            List<journalEvent> logs = journalEventDao.getAll();
+            StringBuilder sb = new StringBuilder();
+            SimpleDateFormat sdf = new SimpleDateFormat("dd.MM.yyyy HH:mm:ss", Locale.getDefault());
         /*for (String entry:logList){
             sb.append(entry).append("\n");
         }*/
-        for (journalEvent e : logs){
-            sb.append("[").append(sdf.format(e.date)).append("] ")
-                    .append(e.event).append("\n");
-        }
+            for (journalEvent e : logs) {
+                sb.append("[").append(sdf.format(e.date)).append("] ")
+                        .append(e.event).append("\n");
+            }
 
-        logTextView.setText(sb.toString());
+            runOnUiThread(() -> logTextView.setText(sb.toString()));
+        });
     }
-
-
-
 }
